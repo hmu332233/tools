@@ -1,19 +1,18 @@
-import { Suspense, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
-import { Button } from '@nextui-org/react';
-import LoadTest from './components/LoadTest';
+import { Suspense } from 'react';
+import CsvParseSection from './components/CsvParseSection';
+import Navbar from './components/Navbar';
+import Space from './components/Space';
 
 function App() {
   return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <LoadTest />
-      </Suspense>
-      <Button color="primary">Hello</Button>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </div>
+    <>
+      <Navbar />
+      <Space className="min-h-screen py-9 mx-auto max-w-5xl px-6">
+        <Suspense fallback={<div>Loading...</div>}>
+          <CsvParseSection />
+        </Suspense>
+      </Space>
+    </>
   );
 }
 
