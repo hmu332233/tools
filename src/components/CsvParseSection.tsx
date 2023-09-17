@@ -12,7 +12,7 @@ export function CsvParseSection() {
 
     const jsonString = e.currentTarget.json.value;
     const parser = new Parser({});
-    const csv = parser.parse(JSON.parse(jsonString));
+    const csv = parser.parse(eval(`var ISODate = v => v;(${jsonString})`));
     setCsvString(csv);
   };
 
