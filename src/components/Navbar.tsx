@@ -4,7 +4,6 @@ import {
   NavbarContent,
   NavbarItem,
   Link,
-  Button,
 } from '@nextui-org/react';
 
 function Navbar() {
