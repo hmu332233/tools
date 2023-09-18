@@ -1,7 +1,15 @@
 import { Parser } from '@json2csv/plainjs';
 import { useDeferredValue, useState } from 'react';
-import { Button, Textarea, Snippet } from '@nextui-org/react';
+import {
+  Button,
+  Textarea,
+  Snippet,
+  Accordion,
+  AccordionItem,
+} from '@nextui-org/react';
 import Space from './Space';
+
+import { loadScript } from '../utils';
 
 export function CsvParseSection() {
   const [csvString, setCsvString] = useState(' ');
@@ -16,17 +24,28 @@ export function CsvParseSection() {
     setCsvString(csv);
   };
 
+  // TODO: date format시에만 load해서 사용하도록 처리
+  loadScript('https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js').read();
+
   return (
     <Space className="w-full" gap={8}>
       <form className="flex-grow w-full" onSubmit={handleSubmit}>
         <Textarea
           name="json"
           label="JSON String"
-          placeholder={'[{ "a" : 1 }, { "a" : 2 }]}]'}
+          placeholder={
+            '[{ "_id" : "0", createdAt: ISODate("2023-01-01T15:00:00.000Z")}]'
+          }
         />
         <Button type="submit" color="primary">
           Convert
         </Button>
+
+        <Accordion variant="bordered">
+          <AccordionItem key="1" aria-label="Accordion 1" title="Options">
+            test
+          </AccordionItem>
+        </Accordion>
       </form>
       <div className="flex-grow w-full">
         <Snippet
