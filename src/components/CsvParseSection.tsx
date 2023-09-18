@@ -4,7 +4,7 @@ import { Button, Textarea, Snippet } from '@nextui-org/react';
 import Space from './Space';
 
 export function CsvParseSection() {
-  const [csvString, setCsvString] = useState('');
+  const [csvString, setCsvString] = useState(' ');
   const deferredCsvString = useDeferredValue(csvString);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,11 +25,15 @@ export function CsvParseSection() {
           placeholder={'[{ "a" : 1 }, { "a" : 2 }]}]'}
         />
         <Button type="submit" color="primary">
-          Submit
+          Convert
         </Button>
       </form>
       <div className="flex-grow w-full">
-        <Snippet className="w-full" hideSymbol>
+        <Snippet
+          className="w-full relative min-h-unit-11"
+          hideSymbol
+          classNames={{ copyButton: 'absolute right-3 top-1.5' }}
+        >
           <pre>{deferredCsvString}</pre>
         </Snippet>
       </div>
