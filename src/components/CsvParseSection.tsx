@@ -1,5 +1,5 @@
 import { Parser } from '@json2csv/plainjs';
-import { useDeferredValue, useState } from 'react';
+import { useDeferredValue, useEffect, useState } from 'react';
 import {
   Button,
   Textarea,
@@ -20,12 +20,14 @@ export function CsvParseSection() {
 
     const jsonString = e.currentTarget.json.value;
     const parser = new Parser({});
-    const csv = parser.parse(eval(`var ISODate = v => v;(${jsonString})`));
+    const csv = parser.parse(
+      eval(`var ISODate = v => dayjs(v).toString();(${jsonString})`),
+    );
     setCsvString(csv);
   };
 
   // TODO: date format시에만 load해서 사용하도록 처리
-  loadScript('https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js').read();
+  loadScript('https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js').get();
 
   return (
     <Space className="w-full" gap={8}>

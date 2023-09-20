@@ -1,12 +1,21 @@
 const STATUS = {
-  PENDING: 'pending',
-  SUCCESS: 'success',
-  ERROR: 'error',
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+} as const;
+
+type StatusType = keyof typeof STATUS; // 'PENDING', 'SUCCESS', 'ERROR'
+
+type Resource<T> = {
+  get: () => T | undefined;
 };
 
-export const wrapPromise = (promise, ...params) => {
-  let status = STATUS.PENDING;
-  let results;
+export const wrapPromise = <T>(
+  promise: (...args: any[]) => Promise<T>,
+  ...params: any[]
+): Resource<T> => {
+  let status: StatusType = STATUS.PENDING;
+  let results: T | Error;
 
   const suspender = promise(...params)
     .then((r) => {
@@ -18,18 +27,23 @@ export const wrapPromise = (promise, ...params) => {
       results = e;
     });
 
+  const handlers: { [key in StatusType]: () => T | never } = {
+    [STATUS.PENDING]: () => {
+      throw suspender;
+    },
+    [STATUS.SUCCESS]: () => results as T,
+    [STATUS.ERROR]: () => {
+      throw results as Error;
+    },
+  };
+
   return {
-    read() {
-      switch (status) {
-        case STATUS.PENDING:
-          throw suspender;
-        case STATUS.SUCCESS:
-          return results; // 결과값을 리턴하는 경우 성공 UI를 보여준다
-        case STATUS.ERROR:
-          throw results; // Error을 throw하는 경우 ErrorBoundary의 Fallback UI를 보여준다
-        default:
-          break;
+    get() {
+      const handler = handlers[status];
+      if (!handler) {
+        throw new Error('Invalid status');
       }
+      return handler();
     },
   };
 };
@@ -39,7 +53,7 @@ export const loadScript = (source: string) => {
   let resource = cache.get(source);
   if (resource) return resource;
 
-  resource = wrapPromise(
+  resource = wrapPromise<string>(
     () =>
       new Promise((resolve, reject) => {
         const script = document.createElement('script');
