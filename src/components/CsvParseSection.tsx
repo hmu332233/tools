@@ -1,5 +1,5 @@
 import { Parser } from '@json2csv/plainjs';
-import { useDeferredValue, useEffect, useState } from 'react';
+import { useDeferredValue, useState } from 'react';
 import {
   Button,
   Textarea,
