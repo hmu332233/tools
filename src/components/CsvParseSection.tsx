@@ -1,14 +1,6 @@
 import { Parser } from '@json2csv/plainjs';
 import { useDeferredValue, useState } from 'react';
-import {
-  Button,
-  Textarea,
-  Snippet,
-  Accordion,
-  AccordionItem,
-  ScrollShadow,
-  Input,
-} from '@nextui-org/react';
+import { Button, Textarea, Input } from '@nextui-org/react';
 import Space from './Space';
 
 import { loadScript } from '../utils';

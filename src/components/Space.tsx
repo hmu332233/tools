@@ -1,7 +1,7 @@
 import cn from 'classnames';
 
 type Props = {
-  tag?: keyof JSX.IntrinsicElements;
+  tag?: keyof HTMLElementTagNameMap;
   className?: string;
   direction?: 'row' | 'col';
   justify?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly';
