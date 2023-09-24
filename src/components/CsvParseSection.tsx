@@ -18,7 +18,7 @@ export function CsvParseSection() {
     const parser = new Parser({});
     const csv = parser.parse(
       eval(
-        `var ObjectId = v => v;var ISODate = v => dayjs(v).format(${dateFormat});(${jsonString})`,
+        `var ObjectId = v => v;var ISODate = v => dayjs(v).format('${dateFormat}');(${jsonString})`,
       ),
     );
     setCsvString(csv);
@@ -58,6 +58,7 @@ export function CsvParseSection() {
           type="text"
           label="Date Format"
           placeholder="YYYY-MM-DD"
+          defaultValue="YYYY-MM-DDTHH:mm:ss.SSS[Z]"
         />
       </Space>
     </Space>
